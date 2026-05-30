@@ -203,7 +203,25 @@ footer{background:var(--panel);border-top:1px solid var(--border);padding:4rem 7
   <span>Custom Apparel</span><span class="sep">✦</span><span>Online Designer Tool</span><span class="sep">✦</span><span>Stripe Payments</span><span class="sep">✦</span><span>Order Tracking</span><span class="sep">✦</span><span>Customer Accounts</span><span class="sep">✦</span><span>AI Chat Support</span><span class="sep">✦</span>
 </div></div>
 
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><em>Rowdy</em> Merch<small>Custom Apparel · Indiana</small></div>
+    <div class="footer-links"><a href="store.html">Shop</a><a href="designer.html">Designer</a><a href="cart.html">Cart</a><a href="orders.html">Orders</a><a href="account.html">Account</a><a href="location.html">Location</a></div>
+  </div>
+  <div class="footer-copy" style="display:flex;align-items:center;justify-content:center;gap:1.25rem;flex-wrap:wrap;padding-top:1.5rem;"><span>© 2025 Rowdy Merch · Powered by Rowdy Designs Production · All Rights Reserved</span><span style="display:flex;align-items:center;gap:0.4rem;white-space:nowrap;"><img src="https://rowdy-designs.com/static/Icons/logo-nobg.png" alt="Rowdy Designs" style="height:18px;opacity:0.55;">Coded By <span style="color:var(--acc);font-weight:600;">Rowdy Designs</span></span></div>
+</footer>
 
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+<script src="https://rowdy-designs.com/widget.js"
+        data-server="https://rowdy-designs.com"
+        data-avatar="CustomerSupport_480.png"
+        data-color="#d946ef"
+        data-name="Customer Support"
+        data-position="right">
+</script>
 
 </body>
 </html>
