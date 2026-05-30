@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rowdy Merch — Custom T-Shirt Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--acc:#d946ef;--bg:#08040a;--panel:#0f0612;--mid:#16081a;--text:#f0e8f2;--border:rgba(217,70,239,0.12);--glow:0 0 40px rgba(217,70,239,0.18);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.1rem 7vw;display:flex;justify-content:space-between;align-items:center;background:rgba(8,4,10,0.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--text);text-decoration:none;}
+.nav-brand em{color:var(--acc);font-style:normal;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(240,232,242,0.38);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--acc);}
+.nav-cart{position:relative;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;color:var(--acc);text-decoration:none;display:flex;align-items:center;gap:6px;}
+.nav-cart .cart-count{background:var(--acc);color:var(--bg);font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+@media(max-width:768px){.nav-links{display:none;}}
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 7vw 9vh;overflow:hidden;}
+.hero-img{position:absolute;inset:0;background-image:url('https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=1600');background-size:cover;background-position:center 35%;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,4,10,0.97) 0%,rgba(8,4,10,0.55) 50%,rgba(8,4,10,0.22) 100%),linear-gradient(to right,rgba(8,4,10,0.65) 0%,transparent 65%);}
+.hero-content{position:relative;z-index:2;max-width:780px;}
+.hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:clamp(10px,1.1vw,13px);font-weight:600;letter-spacing:7px;color:var(--acc);text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:14px;animation:fadeUp .8s ease both;}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--acc);}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(68px,12vw,170px);line-height:.87;letter-spacing:2px;color:#fff;animation:fadeUp .8s .12s ease both;}
+.hero-title span{color:var(--acc);display:block;}
+.hero-sub{margin-top:2rem;font-size:clamp(13px,1.4vw,16px);color:rgba(240,232,242,0.48);max-width:420px;line-height:1.75;animation:fadeUp .8s .24s ease both;}
+.hero-cta{margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .36s ease both;}
+.hero-badge{position:absolute;top:50%;right:7vw;transform:translateY(-50%);z-index:2;width:clamp(110px,13vw,155px);height:clamp(110px,13vw,155px);border-radius:50%;border:1px solid rgba(217,70,239,0.18);display:flex;align-items:center;justify-content:center;animation:spin 22s linear infinite;}
+.hero-badge svg{position:absolute;width:100%;height:100%;}
+.hero-badge-inner{font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,2.8vw,34px);color:var(--acc);letter-spacing:2px;animation:spinReverse 22s linear infinite;}
+@keyframes spin{from{transform:translateY(-50%) rotate(0deg);}to{transform:translateY(-50%) rotate(360deg);}}
+@keyframes spinReverse{from{transform:rotate(0deg);}to{transform:rotate(-360deg);}}
+@media(max-width:768px){.hero-badge{display:none;}}
+.scroll-hint{position:absolute;bottom:2.5rem;right:7vw;z-index:2;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(217,70,239,0.28);writing-mode:vertical-rl;display:flex;align-items:center;gap:10px;animation:fadeUp 1s .6s ease both;}
+.scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(to bottom,var(--acc),transparent);opacity:.35;}
+.btn-primary{padding:14px 36px;background:var(--acc);color:var(--bg);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;display:inline-block;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-primary:hover{background:#fff;box-shadow:var(--glow);transform:translateY(-2px);}
+.btn-outline{padding:14px 36px;background:transparent;color:var(--acc);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;text-decoration:none;border:1px solid rgba(217,70,239,0.28);cursor:pointer;transition:border-color .2s,color .2s,transform .15s;display:inline-block;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-outline:hover{border-color:var(--acc);color:#fff;transform:translateY(-2px);}
+.ticker-wrap{background:var(--acc);overflow:hidden;padding:11px 0;white-space:nowrap;position:relative;z-index:10;}
+.ticker-inner{display:inline-block;animation:ticker 28s linear infinite;}
+.ticker-inner span{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--bg);padding:0 2.5rem;}
+.ticker-inner .sep{opacity:.3;padding:0;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.sec{padding:clamp(70px,11vh,130px) 7vw;}
+.sec-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:7px;color:var(--acc);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:14px;}
+.sec-label::before{content:'';width:22px;height:1px;background:var(--acc);}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,7vw,96px);line-height:.9;letter-spacing:1px;margin-bottom:1.5rem;}
+/* Store grid */
+#store{background:var(--panel);border-top:1px solid var(--border);}
+.store-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem;}
+@media(max-width:1000px){.store-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.store-grid{grid-template-columns:1fr;}}
+.product-card{background:var(--mid);border:1px solid var(--border);overflow:hidden;transition:transform .3s ease,border-color .3s ease;}
+.product-card:hover{transform:translateY(-4px);border-color:rgba(217,70,239,0.35);}
+.product-img{aspect-ratio:1;background-size:cover;background-position:center;background-color:var(--bg);}
+.product-info{padding:1.2rem;}
+.product-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-bottom:.35rem;}
+.product-variant{font-size:11px;color:rgba(240,232,242,0.38);margin-bottom:.75rem;}
+.product-price{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:600;color:var(--acc);}
+.product-price small{font-size:12px;color:rgba(240,232,242,0.28);font-weight:400;}
+.product-actions{display:flex;gap:.5rem;margin-top:.75rem;}
+.product-actions select{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:11px;padding:8px 10px;text-transform:uppercase;letter-spacing:1px;outline:none;}
+.product-actions .btn-add{padding:8px 16px;background:var(--acc);color:var(--bg);border:none;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.product-actions .btn-add:hover{background:#fff;}
+/* Design tool */
+#designer{background:var(--bg);}
+.designer-layout{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start;}
+@media(max-width:780px){.designer-layout{grid-template-columns:1fr;}}
+.designer-preview{aspect-ratio:1;background:var(--mid);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.designer-preview-text{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:3px;color:rgba(240,232,242,0.22);text-transform:uppercase;}
+.designer-upload{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.designer-controls{display:flex;flex-direction:column;gap:1.2rem;}
+.designer-controls label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(217,70,239,0.5);}
+.designer-controls select,.designer-controls input[type=text]{background:var(--mid);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:12px 15px;outline:none;width:100%;transition:border-color .2s;}
+.designer-controls select:focus,.designer-controls input:focus{border-color:rgba(217,70,239,0.4);}
+.color-swatches{display:flex;gap:.5rem;flex-wrap:wrap;}
+.color-swatch{width:32px;height:32px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:border-color .2s;}
+.color-swatch:hover,.color-swatch.selected{border-color:var(--acc);}
+/* Cart */
+#cart{background:var(--panel);border-top:1px solid var(--border);}
+.cart-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:4vw;align-items:start;}
+@media(max-width:780px){.cart-layout{grid-template-columns:1fr;}}
+.cart-items{display:flex;flex-direction:column;gap:1px;background:var(--border);}
+.cart-item{background:var(--mid);padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#fff;}
+.cart-item-variant{font-size:11px;color:rgba(240,232,242,0.35);margin-top:3px;}
+.cart-item-qty{display:flex;align-items:center;gap:.5rem;}
+.cart-item-qty button{width:28px;height:28px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s;}
+.cart-item-qty button:hover{border-color:var(--acc);}
+.cart-item-qty span{font-family:'Barlow Condensed',sans-serif;font-size:14px;min-width:20px;text-align:center;}
+.cart-item-price{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;color:var(--acc);min-width:60px;text-align:right;}
+.cart-summary{background:var(--mid);border:1px solid var(--border);padding:2rem;position:sticky;top:100px;}
+.cart-summary h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;margin-bottom:1.5rem;}
+.summary-row{display:flex;justify-content:space-between;padding:.6rem 0;font-size:14px;color:rgba(240,232,242,0.55);border-bottom:1px solid var(--border);}
+.summary-row.total{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#fff;border-bottom:none;margin-top:.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.08);}
+.summary-row.total span:last-child{color:var(--acc);}
+/* Stripe checkout */
+#checkout{background:var(--bg);}
+.checkout-layout{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start;}
+@media(max-width:780px){.checkout-layout{grid-template-columns:1fr;}}
+.stripe-card{background:var(--mid);border:1px solid var(--border);border-radius:8px;padding:2rem;}
+.stripe-card .card-row{display:flex;gap:1rem;margin-bottom:1.2rem;}
+.stripe-card .card-field{flex:1;display:flex;flex-direction:column;gap:6px;}
+.stripe-card .card-field.full{flex:100%;}
+.stripe-card label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(240,232,242,0.4);}
+.stripe-card input{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:12px 14px;outline:none;border-radius:4px;transition:border-color .2s;}
+.stripe-card input:focus{border-color:var(--acc);}
+.stripe-badges{display:flex;gap:.5rem;margin-top:1rem;align-items:center;}
+.stripe-badge{font-size:10px;letter-spacing:2px;color:rgba(240,232,242,0.25);padding:4px 10px;border:1px solid rgba(255,255,255,0.06);border-radius:4px;}
+/* Order tracking */
+#orders{background:var(--panel);border-top:1px solid var(--border);}
+.orders-table{width:100%;border-collapse:collapse;margin-top:2rem;}
+.orders-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(240,232,242,0.35);text-align:left;padding:1rem 1.2rem;border-bottom:1px solid var(--border);}
+.orders-table td{font-size:13px;color:rgba(240,232,242,0.65);padding:1rem 1.2rem;border-bottom:1px solid rgba(255,255,255,0.03);}
+.status-badge{display:inline-block;padding:4px 12px;border-radius:9999px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;}
+.status-badge.processing{background:rgba(217,70,239,0.12);color:var(--acc);}
+.status-badge.shipped{background:rgba(34,197,94,0.12);color:#22c55e;}
+.status-badge.delivered{background:rgba(59,130,246,0.12);color:#3b82f6;}
+/* Account */
+#account{background:var(--bg);}
+.account-layout{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start;}
+@media(max-width:780px){.account-layout{grid-template-columns:1fr;}}
+.account-card{background:var(--mid);border:1px solid var(--border);padding:2rem;}
+.account-card h3{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:1.5rem;}
+.form-field{display:flex;flex-direction:column;gap:8px;margin-bottom:1.2rem;}
+.form-field label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(217,70,239,0.42);}
+.form-field input{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:12px 15px;outline:none;width:100%;transition:border-color .2s;}
+.form-field input:focus{border-color:rgba(217,70,239,0.4);}
+/* Features */
+#features{background:var(--panel);border-top:1px solid var(--border);}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;}
+@media(max-width:900px){.features-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.features-grid{grid-template-columns:1fr;}}
+.feature-card{background:var(--mid);border:1px solid var(--border);padding:2rem 1.5rem;text-align:center;transition:border-color .3s ease;}
+.feature-card:hover{border-color:rgba(217,70,239,0.3);}
+.feature-icon{font-size:32px;margin-bottom:1rem;}
+.feature-card h4{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-bottom:.5rem;}
+.feature-card p{font-size:12px;color:rgba(240,232,242,0.38);line-height:1.6;}
+/* Footer */
+footer{background:var(--panel);border-top:1px solid var(--border);padding:4rem 7vw 2.5rem;}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:3rem;border-bottom:1px solid rgba(217,70,239,0.06);}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:3px;color:var(--text);line-height:1;}
+.footer-brand em{color:var(--acc);font-style:normal;}
+.footer-brand small{display:block;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:6px;color:rgba(217,70,239,0.38);font-weight:600;margin-top:6px;}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-start;}
+.footer-links a{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:2px;color:rgba(240,232,242,0.32);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--acc);}
+.footer-copy{font-size:11px;color:rgba(240,232,242,0.14);letter-spacing:2px;padding-top:2rem;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+#location{background:var(--bg);}
+.map-wrap{width:100%;height:400px;background:var(--mid);border:1px solid var(--border);margin-top:2rem;overflow:hidden;position:relative;}
+.map-wrap iframe{width:100%;height:100%;border:none;filter:grayscale(40%) contrast(90%);}
+.gbp-row{display:flex;align-items:center;gap:.6rem;margin-top:1rem;padding:.6rem 1rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:6px;font-size:10px;letter-spacing:2px;color:var(--text);text-transform:uppercase;width:fit-content;}
+.gbp-star{color:var(--acc);font-size:14px;letter-spacing:0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="#"><em>Rowdy</em> Merch</a>
+  <ul class="nav-links">
+    <li><a href="#store">Shop</a></li>
+    <li><a href="#designer">Designer</a></li>
+    <li><a href="#cart">Cart</a></li>
+    <li><a href="#orders">Orders</a></li>
+    <li><a href="#account">Account</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+  <a class="nav-cart" href="#cart"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.1 5.2A1 1 0 006 20h11a1 1 0 00.9-1.4L17 13M9 23a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2z"/></svg> Cart <span class="cart-count">2</span></a>
+</nav>
+
+<section id="hero">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Production Tier</p>
+    <h1 class="hero-title">Custom<span>Merch</span></h1>
+    <p class="hero-sub">Design custom t-shirts, hoodies, and apparel. Online designer tool, secure Stripe checkout, and real-time order tracking — all built in.</p>
+    <div class="hero-cta">
+      <a href="#store" class="btn-primary">Shop Collection</a>
+      <a href="#designer" class="btn-outline">Start Designing</a>
+    </div>
+  </div>
+  <div class="hero-badge">
+    <svg viewBox="0 0 150 150"><defs><path id="cp" d="M75,75 m-55,0 a55,55 0 1,1 110,0 a55,55 0 1,1 -110,0"/></defs><text font-family="Barlow Condensed,sans-serif" font-size="10.5" font-weight="600" letter-spacing="3" fill="#d946ef"><textPath href="#cp">PRODUCTION · CUSTOM · STORE · </textPath></text></svg>
+    <span class="hero-badge-inner">RM</span>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<div class="ticker-wrap"><div class="ticker-inner">
+  <span>Custom Apparel</span><span class="sep">✦</span><span>Online Designer Tool</span><span class="sep">✦</span><span>Stripe Payments</span><span class="sep">✦</span><span>Order Tracking</span><span class="sep">✦</span><span>Customer Accounts</span><span class="sep">✦</span><span>AI Chat Support</span><span class="sep">✦</span>
+  <span>Custom Apparel</span><span class="sep">✦</span><span>Online Designer Tool</span><span class="sep">✦</span><span>Stripe Payments</span><span class="sep">✦</span><span>Order Tracking</span><span class="sep">✦</span><span>Customer Accounts</span><span class="sep">✦</span><span>AI Chat Support</span><span class="sep">✦</span>
+</div></div>
+
+<!-- Product Store -->
+<section id="store" class="sec">
+  <div class="reveal"><p class="sec-label">Shop</p><h2 class="sec-title">The<br>Collection</h2></div>
+  <div class="store-grid">
+    <div class="product-card reveal d1">
+      <div class="product-img" style="background-image:url('https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+      <div class="product-info">
+        <div class="product-name">Premium Tee</div>
+        <div class="product-variant">100% Cotton · Unisex</div>
+        <div class="product-price">$24<small>.99</small></div>
+        <div class="product-actions">
+          <select><option>M</option><option>L</option><option>XL</option><option>2XL</option></select>
+          <button class="btn-add" onclick="this.textContent='Added ✓';this.style.background='#22c55e';setTimeout(()=>{this.textContent='Add';this.style.background=''},2000)">Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card reveal d2">
+      <div class="product-img" style="background-image:url('https://images.pexels.com/photos/428338/pexels-photo-428338.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+      <div class="product-info">
+        <div class="product-name">Hoodie</div>
+        <div class="product-variant">Fleece · Pullover</div>
+        <div class="product-price">$49<small>.99</small></div>
+        <div class="product-actions">
+          <select><option>M</option><option>L</option><option>XL</option><option>2XL</option></select>
+          <button class="btn-add" onclick="this.textContent='Added ✓';this.style.background='#22c55e';setTimeout(()=>{this.textContent='Add';this.style.background=''},2000)">Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card reveal d3">
+      <div class="product-img" style="background-image:url('https://images.pexels.com/photos/6567701/pexels-photo-6567701.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+      <div class="product-info">
+        <div class="product-name">Long Sleeve</div>
+        <div class="product-variant">Premium Cotton · Crew Neck</div>
+        <div class="product-price">$29<small>.99</small></div>
+        <div class="product-actions">
+          <select><option>M</option><option>L</option><option>XL</option><option>2XL</option></select>
+          <button class="btn-add" onclick="this.textContent='Added ✓';this.style.background='#22c55e';setTimeout(()=>{this.textContent='Add';this.style.background=''},2000)">Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card reveal d4">
+      <div class="product-img" style="background-image:url('https://images.pexels.com/photos/6311390/pexels-photo-6311390.jpeg?auto=compress&cs=tinysrgb&w=600')"></div>
+      <div class="product-info">
+        <div class="product-name">Tank Top</div>
+        <div class="product-variant">Lightweight · Summer Fit</div>
+        <div class="product-price">$19<small>.99</small></div>
+        <div class="product-actions">
+          <select><option>M</option><option>L</option><option>XL</option><option>2XL</option></select>
+          <button class="btn-add" onclick="this.textContent='Added ✓';this.style.background='#22c55e';setTimeout(()=>{this.textContent='Add';this.style.background=''},2000)">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Design Tool -->
+<section id="designer" class="sec">
+  <div class="reveal"><p class="sec-label">Designer</p><h2 class="sec-title">Create Your<br>Own Design</h2></div>
+  <div class="designer-layout">
+    <div class="designer-preview reveal d1">
+      <span class="designer-preview-text">Your Design Here</span>
+      <input type="file" class="designer-upload" accept="image/*" title="Upload your design">
+    </div>
+    <div class="designer-controls reveal d2">
+      <div><label>Garment Type</label><select><option>Premium Tee — $24.99</option><option>Hoodie — $49.99</option><option>Long Sleeve — $29.99</option><option>Tank Top — $19.99</option></select></div>
+      <div><label>Print Location</label><select><option>Full Front</option><option>Left Chest</option><option>Full Back</option><option>Front + Back</option></select></div>
+      <div><label>Garment Color</label><div class="color-swatches"><span class="color-swatch selected" style="background:#1a1a1a"></span><span class="color-swatch" style="background:#f5f5f5"></span><span class="color-swatch" style="background:#2563eb"></span><span class="color-swatch" style="background:#dc2626"></span><span class="color-swatch" style="background:#16a34a"></span><span class="color-swatch" style="background:#f59e0b"></span></div></div>
+      <div><label>Custom Text (Optional)</label><input type="text" placeholder="Your slogan or text..."></div>
+      <div style="margin-top:.5rem;"><button class="btn-primary" style="width:100%;text-align:center;" onclick="this.textContent='Design Saved ✓';this.style.background='#22c55e';setTimeout(()=>{this.textContent='Save Design & Add to Cart';this.style.background=''},3000)">Save Design &amp; Add to Cart</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- Cart -->
+<section id="cart" class="sec">
+  <div class="reveal"><p class="sec-label">Your Cart</p><h2 class="sec-title">Review &amp;<br>Checkout</h2></div>
+  <div class="cart-layout">
+    <div class="cart-items reveal d1">
+      <div class="cart-item">
+        <div class="cart-item-info"><div class="cart-item-name">Premium Tee</div><div class="cart-item-variant">Size XL · Black · Front Print</div></div>
+        <div class="cart-item-qty"><button>-</button><span>1</span><button>+</button></div>
+        <div class="cart-item-price">$24.99</div>
+      </div>
+      <div class="cart-item">
+        <div class="cart-item-info"><div class="cart-item-name">Hoodie</div><div class="cart-item-variant">Size L · Navy · Back Print</div></div>
+        <div class="cart-item-qty"><button>-</button><span>1</span><button>+</button></div>
+        <div class="cart-item-price">$49.99</div>
+      </div>
+    </div>
+    <div class="cart-summary reveal d2">
+      <h3>Order Summary</h3>
+      <div class="summary-row"><span>Subtotal</span><span>$74.98</span></div>
+      <div class="summary-row"><span>Shipping</span><span>$5.99</span></div>
+      <div class="summary-row"><span>Tax</span><span>$5.62</span></div>
+      <div class="summary-row total"><span>Total</span><span>$86.59</span></div>
+      <div style="margin-top:1.5rem;"><a href="#checkout" class="btn-primary" style="width:100%;text-align:center;">Proceed to Checkout</a></div>
+      <p style="text-align:center;margin-top:.75rem;font-size:10px;letter-spacing:2px;color:rgba(240,232,242,0.25);">Powered by <strong>Stripe</strong> · Secure Payment</p>
+    </div>
+  </div>
+</section>
+
+<!-- Stripe Checkout -->
+<section id="checkout" class="sec">
+  <div class="reveal"><p class="sec-label">Checkout</p><h2 class="sec-title">Secure<br>Payment</h2></div>
+  <div class="checkout-layout">
+    <div class="reveal d1">
+      <div class="stripe-card">
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:1.5rem;">Card Details</h3>
+        <div class="card-field full" style="margin-bottom:1.2rem;"><label>Card Number</label><input type="text" placeholder="4242 4242 4242 4242" value="4242 4242 4242 4242"></div>
+        <div class="card-row">
+          <div class="card-field"><label>Expiry</label><input type="text" placeholder="MM / YY" value="12 / 28"></div>
+          <div class="card-field"><label>CVC</label><input type="text" placeholder="123" value="123"></div>
+        </div>
+        <div class="card-field full" style="margin-bottom:1.5rem;"><label>Cardholder Name</label><input type="text" placeholder="John Smith" value="John Smith"></div>
+        <button class="btn-primary" style="width:100%;text-align:center;" onclick="this.textContent='Payment Successful ✓';this.style.background='#22c55e';setTimeout(()=>{this.textContent='Pay $86.59';this.style.background=''},3000)">Pay $86.59</button>
+        <div class="stripe-badges"><span class="stripe-badge">🔒 TLS Encrypted</span><span class="stripe-badge">VISA</span><span class="stripe-badge">MC</span><span class="stripe-badge">AMEX</span><span class="stripe-badge">Cash App</span></div>
+      </div>
+    </div>
+    <div class="reveal d2">
+      <div class="account-card">
+        <h3>Shipping Address</h3>
+        <div class="form-field"><label>Full Name</label><input type="text" placeholder="John Smith"></div>
+        <div class="form-field"><label>Address</label><input type="text" placeholder="123 Main St"></div>
+        <div class="form-field"><label>City / State / ZIP</label><input type="text" placeholder="Indianapolis, IN 46204"></div>
+        <div class="form-field"><label>Email (for invoice)</label><input type="email" placeholder="john@example.com"></div>
+        <p style="font-size:11px;color:rgba(240,232,242,0.32);line-height:1.6;margin-top:.5rem;">Invoice automatically sent to your email. Order confirmation with tracking number within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Order Tracking -->
+<section id="orders" class="sec">
+  <div class="reveal"><p class="sec-label">Orders</p><h2 class="sec-title">Track Your<br>Orders</h2></div>
+  <div class="reveal d1" style="overflow-x:auto;">
+    <table class="orders-table">
+      <thead><tr><th>Order #</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Tracking</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--acc);font-weight:600;">#RM-2024-0891</td>
+          <td>Dec 14, 2024</td>
+          <td>2 × Premium Tee, 1 × Hoodie</td>
+          <td style="font-weight:600;">$99.97</td>
+          <td><span class="status-badge delivered">Delivered</span></td>
+          <td style="font-size:11px;color:rgba(240,232,242,0.35);">—</td>
+        </tr>
+        <tr>
+          <td style="color:var(--acc);font-weight:600;">#RM-2024-0912</td>
+          <td>Dec 28, 2024</td>
+          <td>1 × Long Sleeve</td>
+          <td style="font-weight:600;">$29.99</td>
+          <td><span class="status-badge shipped">Shipped</span></td>
+          <td style="font-size:11px;color:var(--acc);">1Z999AA10123456784</td>
+        </tr>
+        <tr>
+          <td style="color:var(--acc);font-weight:600;">#RM-2025-0003</td>
+          <td>Jan 3, 2025</td>
+          <td>3 × Tank Top</td>
+          <td style="font-weight:600;">$59.97</td>
+          <td><span class="status-badge processing">Processing</span></td>
+          <td style="font-size:11px;color:rgba(240,232,242,0.35);">Pending</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Customer Account -->
+<section id="account" class="sec">
+  <div class="reveal"><p class="sec-label">Account</p><h2 class="sec-title">My<br>Profile</h2></div>
+  <div class="account-layout">
+    <div class="account-card reveal d1">
+      <h3>Login</h3>
+      <div class="form-field"><label>Email</label><input type="email" placeholder="john@example.com" value="john@example.com"></div>
+      <div class="form-field"><label>Password</label><input type="password" placeholder="••••••••" value="password"></div>
+      <button class="btn-primary" style="width:100%;text-align:center;margin-top:.5rem;">Sign In</button>
+      <p style="text-align:center;margin-top:.75rem;font-size:11px;color:rgba(240,232,242,0.28);">Don't have an account? <a href="#" style="color:var(--acc);text-decoration:none;">Sign up</a></p>
+    </div>
+    <div class="account-card reveal d2">
+      <h3>Saved Addresses</h3>
+      <div style="padding:1rem;background:var(--bg);border:1px solid var(--border);margin-bottom:.75rem;font-size:13px;color:rgba(240,232,242,0.55);line-height:1.6;">
+        <strong style="color:#fff;">John Smith</strong><br>
+        123 Main St, Indianapolis, IN 46204
+      </div>
+      <div style="padding:1rem;background:var(--bg);border:1px solid var(--border);font-size:13px;color:rgba(240,232,242,0.55);line-height:1.6;">
+        <strong style="color:#fff;">John Smith (Work)</strong><br>
+        456 Office Blvd, Suite 200, Carmel, IN 46032
+      </div>
+      <p style="margin-top:.75rem;font-size:10px;letter-spacing:2px;color:rgba(217,70,239,0.35);">🔒 Data backed up daily · Auto-invoicing enabled</p>
+    </div>
+  </div>
+</section>
+
+<!-- Location -->
+<section id="location" class="sec">
+  <div class="reveal"><p class="sec-label">Visit Us</p><h2 class="sec-title">Our<br>Studio</h2></div>
+  <div class="map-wrap reveal d1">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d196281.45678901234!2d-86.1581!3d39.7684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886b50ffa7796a03%3A0xd68e9df640b9ea7c!2sIndianapolis%2C%20IN!5e0!3m2!1sen!2sus!4v1690000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Our Location"></iframe>
+  </div>
+  <div class="reveal d2" style="margin-top:1.5rem;">
+    <div class="gbp-row"><span class="gbp-star">★★★★★</span> Verified on Google Business</div>
+    <p style="font-size:12px;color:rgba(240,232,242,0.32);margin-top:.75rem;line-height:1.6;">Visit our Indianapolis studio or find us on Google Maps. We ship custom apparel nationwide.</p>
+  </div>
+</section>
+
+<!-- Production Features -->
+<section id="features" class="sec">
+  <div class="reveal"><p class="sec-label">Why Production</p><h2 class="sec-title">Every Feature<br>Included</h2></div>
+  <div class="features-grid">
+    <div class="feature-card reveal d1"><div class="feature-icon">🛒</div><h4>Online Store</h4><p>Full product catalog with variants, sizes, colors — customers browse and buy 24/7.</p></div>
+    <div class="feature-card reveal d2"><div class="feature-icon">💳</div><h4>Stripe Payments</h4><p>Accept cards, Cash App, and more. Secure checkout with TLS encryption built in.</p></div>
+    <div class="feature-card reveal d3"><div class="feature-icon">📦</div><h4>Order Tracking</h4><p>Real-time order dashboard. Customers see status from processing to delivered.</p></div>
+    <div class="feature-card reveal d4"><div class="feature-icon">👤</div><h4>Customer Accounts</h4><p>Saved addresses, order history, reorder in one click. Auto-invoicing on every purchase.</p></div>
+    <div class="feature-card reveal d1"><div class="feature-icon">🤖</div><h4>AI Chat Bot</h4><p>24/7 support handles FAQs, sizing questions, and order inquiries — captures leads too.</p></div>
+    <div class="feature-card reveal d2"><div class="feature-icon">💾</div><h4>Daily Backups</h4><p>Customer data, orders, and designs backed up automatically. Zero data loss risk.</p></div>
+    <div class="feature-card reveal d3"><div class="feature-icon">📱</div><h4>Mobile Optimized</h4><p>Perfect shopping experience on every screen — phone, tablet, or desktop.</p></div>
+    <div class="feature-card reveal d4"><div class="feature-icon">🔒</div><h4>SSL + Hosting</h4><p>Enterprise hosting with automatic SSL, CDN, and 99.9% uptime included.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><em>Rowdy</em> Merch<small>Custom Apparel · Indiana</small></div>
+    <div class="footer-links"><a href="#store">Shop</a><a href="#designer">Designer</a><a href="#cart">Cart</a><a href="#orders">Orders</a><a href="#account">Account</a><a href="#location">Location</a></div>
+  </div>
+  <p class="footer-copy">© 2025 Rowdy Merch · Powered by Rowdy Designs Production · All Rights Reserved</p>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+<script src="https://rowdy-designs.com/widget.js"
+        data-server="https://rowdy-designs.com"
+        data-color="#d946ef"
+        data-name="Rowdy Support"
+        data-position="right">
+</script>
+</body>
+</html>
