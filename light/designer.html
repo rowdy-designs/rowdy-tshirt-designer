@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rowdy Merch — Custom T-Shirt Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--acc:#d946ef;--bg:#f8fafc;--panel:#f1f5f9;--mid:#e8edf3;--text:#0f172a;--border:rgba(217,70,239,0.18);--glow:0 0 40px rgba(217,70,239,0.1);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.1rem 7vw;display:flex;justify-content:space-between;align-items:center;background:rgba(248,250,252,0.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--text);text-decoration:none;}
+.nav-brand em{color:var(--acc);font-style:normal;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(15,23,42,0.42);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--acc);}
+.nav-cart{position:relative;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:3px;color:var(--acc);text-decoration:none;display:flex;align-items:center;gap:6px;}
+.nav-cart .cart-count{background:var(--acc);color:#fff;font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+@media(max-width:768px){.nav-links{display:none;}}
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 7vw 9vh;overflow:hidden;}
+.hero-img{position:absolute;inset:0;background-image:url('https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=1600');background-size:cover;background-position:center 35%;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.5) 50%,rgba(0,0,0,0.18) 100%),linear-gradient(to right,rgba(0,0,0,0.6) 0%,transparent 65%);}
+.hero-content{position:relative;z-index:2;max-width:780px;}
+.hero-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:clamp(10px,1.1vw,13px);font-weight:600;letter-spacing:7px;color:var(--acc);text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:14px;animation:fadeUp .8s ease both;}
+.hero-eyebrow::before{content:'';width:30px;height:1px;background:var(--acc);}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(68px,12vw,170px);line-height:.87;letter-spacing:2px;color:#fff;animation:fadeUp .8s .12s ease both;}
+.hero-title span{color:var(--acc);display:block;}
+.hero-sub{margin-top:2rem;font-size:clamp(13px,1.4vw,16px);color:rgba(255,255,255,0.6);max-width:420px;line-height:1.75;animation:fadeUp .8s .24s ease both;}
+.hero-cta{margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .36s ease both;}
+.hero-badge{position:absolute;top:50%;right:7vw;transform:translateY(-50%);z-index:2;width:clamp(110px,13vw,155px);height:clamp(110px,13vw,155px);border-radius:50%;border:1px solid rgba(217,70,239,0.3);display:flex;align-items:center;justify-content:center;animation:spin 22s linear infinite;}
+.hero-badge svg{position:absolute;width:100%;height:100%;}
+.hero-badge-inner{font-family:'Bebas Neue',sans-serif;font-size:clamp(20px,2.8vw,34px);color:var(--acc);letter-spacing:2px;animation:spinReverse 22s linear infinite;}
+@keyframes spin{from{transform:translateY(-50%) rotate(0deg);}to{transform:translateY(-50%) rotate(360deg);}}
+@keyframes spinReverse{from{transform:rotate(0deg);}to{transform:rotate(-360deg);}}
+@media(max-width:768px){.hero-badge{display:none;}}
+.scroll-hint{position:absolute;bottom:2.5rem;right:7vw;z-index:2;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(217,70,239,0.45);writing-mode:vertical-rl;display:flex;align-items:center;gap:10px;animation:fadeUp 1s .6s ease both;}
+.scroll-hint::after{content:'';width:1px;height:40px;background:linear-gradient(to bottom,var(--acc),transparent);opacity:.5;}
+.btn-primary{padding:14px 36px;background:var(--acc);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;display:inline-block;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-primary:hover{background:#0f172a;color:#fff;box-shadow:var(--glow);transform:translateY(-2px);}
+.btn-outline{padding:14px 36px;background:transparent;color:var(--acc);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;text-decoration:none;border:1px solid rgba(217,70,239,0.4);cursor:pointer;transition:border-color .2s,color .2s,transform .15s;display:inline-block;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-outline:hover{border-color:var(--acc);color:#fff;transform:translateY(-2px);}
+.ticker-wrap{background:var(--acc);overflow:hidden;padding:11px 0;white-space:nowrap;position:relative;z-index:10;}
+.ticker-inner{display:inline-block;animation:ticker 28s linear infinite;}
+.ticker-inner span{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#fff;padding:0 2.5rem;}
+.ticker-inner .sep{opacity:.3;padding:0;}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.sec{padding:clamp(70px,11vh,130px) 7vw;}
+.sec-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:7px;color:var(--acc);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:14px;}
+.sec-label::before{content:'';width:22px;height:1px;background:var(--acc);}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,7vw,96px);line-height:.9;letter-spacing:1px;margin-bottom:1.5rem;}
+#store{background:var(--panel);border-top:1px solid var(--border);}
+.store-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem;}
+@media(max-width:1000px){.store-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.store-grid{grid-template-columns:1fr;}}
+.product-card{background:var(--bg);border:1px solid var(--border);overflow:hidden;transition:transform .3s ease,border-color .3s ease;}
+.product-card:hover{transform:translateY(-4px);border-color:rgba(217,70,239,0.4);}
+.product-img{aspect-ratio:1;background-size:cover;background-position:center;background-color:var(--mid);}
+.product-info{padding:1.2rem;}
+.product-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text);margin-bottom:.35rem;}
+.product-variant{font-size:11px;color:rgba(15,23,42,0.45);margin-bottom:.75rem;}
+.product-price{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:600;color:var(--acc);}
+.product-price small{font-size:12px;color:rgba(15,23,42,0.35);font-weight:400;}
+.product-actions{display:flex;gap:.5rem;margin-top:.75rem;}
+.product-actions select{flex:1;background:var(--panel);border:1px solid var(--border);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-size:11px;padding:8px 10px;text-transform:uppercase;letter-spacing:1px;outline:none;}
+.product-actions .btn-add{padding:8px 16px;background:var(--acc);color:#fff;border:none;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.product-actions .btn-add:hover{background:#0f172a;}
+#designer{background:var(--bg);}
+.designer-layout{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start;}
+@media(max-width:780px){.designer-layout{grid-template-columns:1fr;}}
+.designer-preview{aspect-ratio:1;background:var(--mid);border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.designer-preview-text{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:3px;color:rgba(15,23,42,0.2);text-transform:uppercase;}
+.designer-upload{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.designer-controls{display:flex;flex-direction:column;gap:1.2rem;}
+.designer-controls label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(217,70,239,0.6);}
+.designer-controls select,.designer-controls input[type=text]{background:var(--panel);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:12px 15px;outline:none;width:100%;transition:border-color .2s;}
+.designer-controls select:focus,.designer-controls input:focus{border-color:rgba(217,70,239,0.5);}
+.color-swatches{display:flex;gap:.5rem;flex-wrap:wrap;}
+.color-swatch{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);cursor:pointer;transition:border-color .2s;}
+.color-swatch:hover,.color-swatch.selected{border-color:var(--acc);}
+#cart{background:var(--panel);border-top:1px solid var(--border);}
+.cart-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:4vw;align-items:start;}
+@media(max-width:780px){.cart-layout{grid-template-columns:1fr;}}
+.cart-items{display:flex;flex-direction:column;gap:1px;background:var(--border);}
+.cart-item{background:var(--bg);padding:1.2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text);}
+.cart-item-variant{font-size:11px;color:rgba(15,23,42,0.45);margin-top:3px;}
+.cart-item-qty{display:flex;align-items:center;gap:.5rem;}
+.cart-item-qty button{width:28px;height:28px;background:var(--panel);border:1px solid var(--border);color:var(--text);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s;}
+.cart-item-qty button:hover{border-color:var(--acc);}
+.cart-item-qty span{font-family:'Barlow Condensed',sans-serif;font-size:14px;min-width:20px;text-align:center;}
+.cart-item-price{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:600;color:var(--acc);min-width:60px;text-align:right;}
+.cart-summary{background:var(--bg);border:1px solid var(--border);padding:2rem;position:sticky;top:100px;}
+.cart-summary h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;margin-bottom:1.5rem;}
+.summary-row{display:flex;justify-content:space-between;padding:.6rem 0;font-size:14px;color:rgba(15,23,42,0.55);border-bottom:1px solid var(--border);}
+.summary-row.total{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--text);border-bottom:none;margin-top:.5rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.08);}
+.summary-row.total span:last-child{color:var(--acc);}
+#checkout{background:var(--bg);}
+.checkout-layout{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start;}
+@media(max-width:780px){.checkout-layout{grid-template-columns:1fr;}}
+.stripe-card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:2rem;}
+.stripe-card .card-row{display:flex;gap:1rem;margin-bottom:1.2rem;}
+.stripe-card .card-field{flex:1;display:flex;flex-direction:column;gap:6px;}
+.stripe-card .card-field.full{flex:100%;}
+.stripe-card label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(15,23,42,0.45);}
+.stripe-card input{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:12px 14px;outline:none;border-radius:4px;transition:border-color .2s;}
+.stripe-card input:focus{border-color:var(--acc);}
+.stripe-badges{display:flex;gap:.5rem;margin-top:1rem;align-items:center;}
+.stripe-badge{font-size:10px;letter-spacing:2px;color:rgba(15,23,42,0.3);padding:4px 10px;border:1px solid rgba(0,0,0,0.06);border-radius:4px;}
+#orders{background:var(--panel);border-top:1px solid var(--border);}
+.orders-table{width:100%;border-collapse:collapse;margin-top:2rem;}
+.orders-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(15,23,42,0.4);text-align:left;padding:1rem 1.2rem;border-bottom:1px solid var(--border);}
+.orders-table td{font-size:13px;color:rgba(15,23,42,0.7);padding:1rem 1.2rem;border-bottom:1px solid rgba(0,0,0,0.04);}
+.status-badge{display:inline-block;padding:4px 12px;border-radius:9999px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;}
+.status-badge.processing{background:rgba(217,70,239,0.1);color:var(--acc);}
+.status-badge.shipped{background:rgba(34,197,94,0.1);color:#16a34a;}
+.status-badge.delivered{background:rgba(59,130,246,0.1);color:#2563eb;}
+#account{background:var(--bg);}
+.account-layout{display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:start;}
+@media(max-width:780px){.account-layout{grid-template-columns:1fr;}}
+.account-card{background:var(--panel);border:1px solid var(--border);padding:2rem;}
+.account-card h3{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:1.5rem;}
+.form-field{display:flex;flex-direction:column;gap:8px;margin-bottom:1.2rem;}
+.form-field label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(217,70,239,0.55);}
+.form-field input{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Barlow',sans-serif;font-size:14px;padding:12px 15px;outline:none;width:100%;transition:border-color .2s;}
+.form-field input:focus{border-color:rgba(217,70,239,0.5);}
+#features{background:var(--panel);border-top:1px solid var(--border);}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;}
+@media(max-width:900px){.features-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.features-grid{grid-template-columns:1fr;}}
+.feature-card{background:var(--bg);border:1px solid var(--border);padding:2rem 1.5rem;text-align:center;transition:border-color .3s ease;}
+.feature-card:hover{border-color:rgba(217,70,239,0.35);}
+.feature-icon{font-size:32px;margin-bottom:1rem;}
+.feature-card h4{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text);margin-bottom:.5rem;}
+.feature-card p{font-size:12px;color:rgba(15,23,42,0.48);line-height:1.6;}
+footer{background:var(--panel);border-top:1px solid var(--border);padding:4rem 7vw 2.5rem;}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:3rem;border-bottom:1px solid rgba(217,70,239,0.08);}
+.footer-brand{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:3px;color:var(--text);line-height:1;}
+.footer-brand em{color:var(--acc);font-style:normal;}
+.footer-brand small{display:block;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:6px;color:rgba(217,70,239,0.45);font-weight:600;margin-top:6px;}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-start;}
+.footer-links a{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:2px;color:rgba(15,23,42,0.38);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--acc);}
+.footer-copy{font-size:11px;color:rgba(15,23,42,0.22);letter-spacing:2px;padding-top:2rem;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+#location{background:var(--bg);}
+.map-wrap{width:100%;height:400px;background:var(--mid);border:1px solid var(--border);margin-top:2rem;overflow:hidden;position:relative;}
+.map-wrap iframe{width:100%;height:100%;border:none;}
+.gbp-row{display:flex;align-items:center;gap:.6rem;margin-top:1rem;padding:.6rem 1rem;background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;font-size:10px;letter-spacing:2px;color:var(--text);text-transform:uppercase;width:fit-content;}
+.gbp-star{color:var(--acc);font-size:14px;letter-spacing:0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html"><em>Rowdy</em> Merch</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="store.html">Shop</a></li>
+    <li><a href="designer.html" style="color:var(--acc);">Designer</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><a href="checkout.html">Checkout</a></li>
+    <li><a href="orders.html">Orders</a></li>
+    <li><a href="account.html">Account</a></li>
+    <li><a href="location.html">Location</a></li></ul>
+  <a class="nav-cart" href="#cart"><svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.1 5.2A1 1 0 006 20h11a1 1 0 00.9-1.4L17 13M9 23a1 1 0 100-2 1 1 0 000 2zm7 0a1 1 0 100-2 1 1 0 000 2z"/></svg> Cart <span class="cart-count">2</span></a>
+</nav>
+
+<section id="designer" class="sec">
+  <div class="reveal"><p class="sec-label">Designer</p><h2 class="sec-title">Create Your<br>Own Design</h2></div>
+  <div class="designer-layout">
+    <div class="designer-preview reveal d1">
+      <span class="designer-preview-text">Your Design Here</span>
+      <input type="file" class="designer-upload" accept="image/*" title="Upload your design">
+    </div>
+    <div class="designer-controls reveal d2">
+      <div><label>Garment Type</label><select><option>Premium Tee — $24.99</option><option>Hoodie — $49.99</option><option>Long Sleeve — $29.99</option><option>Tank Top — $19.99</option></select></div>
+      <div><label>Print Location</label><select><option>Full Front</option><option>Left Chest</option><option>Full Back</option><option>Front + Back</option></select></div>
+      <div><label>Garment Color</label><div class="color-swatches"><span class="color-swatch selected" style="background:#1a1a1a"></span><span class="color-swatch" style="background:#f5f5f5"></span><span class="color-swatch" style="background:#2563eb"></span><span class="color-swatch" style="background:#dc2626"></span><span class="color-swatch" style="background:#16a34a"></span><span class="color-swatch" style="background:#f59e0b"></span></div></div>
+      <div><label>Custom Text (Optional)</label><input type="text" placeholder="Your slogan or text..."></div>
+      <div style="margin-top:.5rem;"><button class="btn-primary" style="width:100%;text-align:center;" onclick="this.textContent='Design Saved ✓';this.style.background='#22c55e';setTimeout(()=>{this.textContent='Save Design & Add to Cart';this.style.background=''},3000)">Save Design &amp; Add to Cart</button></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand"><em>Rowdy</em> Merch<small>Custom Apparel · Indiana</small></div>
+    <div class="footer-links"><a href="store.html">Shop</a><a href="designer.html">Designer</a><a href="cart.html">Cart</a><a href="orders.html">Orders</a><a href="account.html">Account</a><a href="location.html">Location</a></div>
+  </div>
+  <p class="footer-copy">© 2025 Rowdy Merch · Powered by Rowdy Designs Production · All Rights Reserved</p>
+</footer>
+
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+<script src="https://rowdy-designs.com/widget.js"
+        data-server="https://rowdy-designs.com"
+        data-color="#d946ef"
+        data-name="Rowdy Support"
+        data-position="right">
+</script>
+
+</body>
+</html>
